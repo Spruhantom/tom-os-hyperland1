@@ -1,14 +1,34 @@
 #!/bin/sh
-# ████ Tom OS — latest upstream linux-firmware (20261019) ████
-# The firmware is installed from the build host with upstream's
-# copy-firmware.sh --zstd (the build network's TLS interception is not
-# trusted inside the chroot). This hook only verifies it is present.
+# ████ Tom OS — verify Ubuntu linux-firmware package ████
+# The previous hook expected an upstream firmware overlay to be copied from
+# the build host, but no such host-side staging step exists. Tom OS already
+# installs Ubuntu's linux-firmware package through the live-build manifest.
+# Verify that package and its payload instead of failing on a marker that can
+# never be created.
 set -e
 
-if [ -f /lib/firmware/.tomos-fw-20261019 ]; then
-    echo "[tomos] upstream linux-firmware 20261019 already installed"
-    exit 0
+echo "[tomos] verifying firmware package"
+if ! dpkg-query -W -f='${Status}' linux-firmware 2>/dev/null | grep -q "install ok installed"; then
+    echo "[tomos] linux-firmware is missing; attempting installation"
+    apt-get update
+    apt-get -y install linux-firmware
 fi
 
-echo "[tomos] ERROR: upstream firmware missing — seed it from the host first"
-exit 1
+if ! dpkg-query -W -f='${Status}' linux-firmware 2>/dev/null | grep -q "install ok installed"; then
+    echo "ERROR: linux-firmware package is not installed" >&2
+    exit 1
+fi
+
+if [ ! -d /lib/firmware ] && [ ! -d /usr/lib/firmware ]; then
+    echo "ERROR: firmware directory is missing" >&2
+    exit 1
+fi
+
+FIRMWARE_DIR=/lib/firmware
+[ -d "$FIRMWARE_DIR" ] || FIRMWARE_DIR=/usr/lib/firmware
+if ! find "$FIRMWARE_DIR" -type f -print -quit | grep -q .; then
+    echo "ERROR: linux-firmware is installed but contains no firmware files" >&2
+    exit 1
+fi
+
+echo "[tomos] firmware package and payload verified"
