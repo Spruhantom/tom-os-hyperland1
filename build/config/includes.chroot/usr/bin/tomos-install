@@ -1,4 +1,29 @@
 #!/bin/sh
-# ████ Tom OS installer launcher ████
-export QT_QPA_PLATFORM=wayland
-exec pkexec calamares "$@"
+# Tom OS Calamares launcher.
+# pkexec sanitizes the caller's environment, so pass the Wayland variables
+# explicitly to the root-side Qt process.
+set -eu
+
+CALAMARES="/usr/bin/calamares"
+
+if ! command -v pkexec >/dev/null 2>&1; then
+    echo "Tom OS Installer: pkexec is missing. Install the 'pkexec' package." >&2
+    exit 127
+fi
+
+if [ ! -x "$CALAMARES" ]; then
+    echo "Tom OS Installer: Calamares is not installed at $CALAMARES." >&2
+    exit 127
+fi
+
+if [ -n "${WAYLAND_DISPLAY:-}" ] && [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    exec pkexec /usr/bin/env \
+        QT_QPA_PLATFORM=wayland \
+        WAYLAND_DISPLAY="$WAYLAND_DISPLAY" \
+        XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
+        QT_WAYLAND_DISABLE_WINDOWDECORATION=1 \
+        "$CALAMARES" "$@"
+fi
+
+# Fallback for non-Wayland sessions.
+exec pkexec "$CALAMARES" "$@"
