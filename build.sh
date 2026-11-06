@@ -51,7 +51,7 @@ run_container_build() {
         "$IMAGE" bash -lc '
             set -Eeuo pipefail
             trap '\''chown -R "${HOST_UID}:${HOST_GID}" /workspace/build 2>/dev/null || true'\'' EXIT
-            ./build.sh "$@"
+            bash ./build.sh "$@"
         ' tomos-container "$@"
 }
 
