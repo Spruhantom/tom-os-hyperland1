@@ -1,0 +1,24 @@
+# ████ Tom OS — mako ████
+font=JetBrainsMono Nerd Font 10
+background-color=#14141f
+text-color=#e8e8f0
+width=380
+height=120
+margin=16,16
+padding=12,14
+border-size=2
+border-color=#ff2d96
+border-radius=12
+icons=1
+max-icon-size=48
+default-timeout=6000
+progress-color=source rgba(0, 240, 255, 0.6)
+
+[urgency=high]
+border-color=#00f0ff
+default-timeout=0
+
+[urgency=critical]
+border-color=#ff2d78
+background-color=#1d0a14
+default-timeout=0

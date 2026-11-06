@@ -1,0 +1,247 @@
+/* ████ Tom OS — GTK3 neon theme ████ */
+
+@define-color bg #0a0a12;
+@define-color bg2 #14141f;
+@define-color bg3 #1d1d2b;
+@define-color fg #e8e8f0;
+@define-color fg_dim #8a8aa0;
+@define-color accent #ff2d96;
+@define-color accent2 #c74cff;
+@define-color cyan #00f0ff;
+@define-color green #00ff9c;
+@define-color yellow #ffe14d;
+@define-color red #ff2d78;
+@define-color border rgba(255, 45, 150, 0.35);
+@define-color border_cyan rgba(0, 240, 255, 0.35);
+@define-color selected_bg #ff2d96;
+
+* {
+    outline-color: @cyan;
+    outline-style: dashed;
+    outline-offset: -3px;
+}
+
+window,
+.dialog {
+    background-color: @bg;
+    color: @fg;
+}
+
+.view,
+textview text,
+treeview.view {
+    background-color: @bg2;
+    color: @fg;
+}
+
+.view:selected,
+textview text selection,
+treeview.view:selected {
+    background-color: @selected_bg;
+    color: @fg;
+}
+
+/* ---------- headerbar ---------- */
+headerbar {
+    background: linear-gradient(180deg, #1a1030, #14141f);
+    border-bottom: 2px solid @accent;
+    color: @fg;
+    padding: 6px 10px;
+}
+
+headerbar:backdrop {
+    border-bottom-color: rgba(255, 45, 150, 0.3);
+}
+
+/* ---------- buttons ---------- */
+button {
+    background: linear-gradient(180deg, @bg3, @bg2);
+    border: 1px solid @border;
+    border-radius: 8px;
+    color: @fg;
+    padding: 6px 14px;
+    transition: all 150ms ease;
+}
+
+button:hover {
+    border-color: @cyan;
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.25);
+}
+
+button:active,
+button:checked {
+    background: linear-gradient(90deg, @accent, @accent2);
+    border-color: @cyan;
+    color: #ffffff;
+}
+
+button.suggested-action {
+    background: linear-gradient(90deg, @accent, @accent2);
+    border-color: @cyan;
+    color: #fff;
+}
+
+button.destructive-action {
+    background: linear-gradient(90deg, @red, #b0174f);
+    border-color: @yellow;
+}
+
+/* ---------- entries ---------- */
+entry,
+searchbar entry {
+    background-color: @bg2;
+    border: 1px solid @border;
+    border-radius: 8px;
+    color: @fg;
+    padding: 6px 10px;
+}
+
+entry:focus {
+    border-color: @cyan;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+entry selection {
+    background-color: @selected_bg;
+}
+
+/* ---------- menus / popovers ---------- */
+menu,
+.menubar .menu,
+popover.background {
+    background-color: @bg2;
+    border: 1px solid @border;
+    border-radius: 10px;
+}
+
+menuitem {
+    padding: 7px 14px;
+    border-radius: 6px;
+    color: @fg;
+}
+
+menuitem:hover {
+    background: linear-gradient(90deg, rgba(255, 45, 150, 0.35), rgba(199, 76, 255, 0.35));
+}
+
+/* ---------- check / radio ---------- */
+checkbutton check,
+radiobutton radio {
+    background-color: @bg2;
+    border: 1px solid @border;
+    border-radius: 5px;
+    color: @cyan;
+}
+
+checkbutton check:checked,
+radiobutton radio:checked {
+    background: linear-gradient(90deg, @accent, @accent2);
+    border-color: @cyan;
+    color: #fff;
+}
+
+radiobutton radio {
+    border-radius: 50%;
+}
+
+/* ---------- switch ---------- */
+switch {
+    background-color: @bg3;
+    border-radius: 14px;
+    border: 1px solid @border;
+}
+
+switch:checked {
+    background: linear-gradient(90deg, @accent, @accent2);
+}
+
+switch slider {
+    background-color: @cyan;
+    border-radius: 50%;
+}
+
+/* ---------- scrollbar ---------- */
+scrollbar {
+    background: transparent;
+}
+
+scrollbar slider {
+    background-color: rgba(0, 240, 255, 0.45);
+    border-radius: 10px;
+    min-width: 8px;
+    min-height: 24px;
+}
+
+scrollbar slider:hover {
+    background-color: @cyan;
+}
+
+/* ---------- notebook / tabs ---------- */
+notebook header {
+    background-color: @bg2;
+    border-bottom: 1px solid @border;
+}
+
+notebook tab {
+    padding: 6px 16px;
+    color: @fg_dim;
+    border-radius: 8px 8px 0 0;
+}
+
+notebook tab:checked {
+    color: @fg;
+    background: linear-gradient(180deg, rgba(255, 45, 150, 0.25), transparent);
+    border-bottom: 2px solid @cyan;
+}
+
+/* ---------- progress / level bars ---------- */
+progressbar trough {
+    background-color: @bg3;
+    border-radius: 8px;
+}
+
+progressbar progress {
+    background: linear-gradient(90deg, @accent, @cyan);
+    border-radius: 8px;
+}
+
+levelbar block.filled {
+    background: linear-gradient(90deg, @green, @cyan);
+    border-radius: 4px;
+}
+
+/* ---------- misc ---------- */
+tooltip {
+    background-color: @bg2;
+    border: 1px solid @accent;
+    border-radius: 8px;
+    color: @fg;
+}
+
+separator {
+    background-color: rgba(255, 45, 150, 0.2);
+}
+
+selection {
+    background-color: @selected_bg;
+    color: @fg;
+}
+
+.csd decoration {
+    border-radius: 12px;
+    border: 1px solid @border;
+}
+
+sidebar,
+placessidebar {
+    background-color: @bg2;
+}
+
+placessidebar row:hover {
+    background-color: rgba(0, 240, 255, 0.08);
+}
+
+actionbar {
+    background-color: @bg2;
+    border-top: 1px solid @border;
+}

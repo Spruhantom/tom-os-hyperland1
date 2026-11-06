@@ -1,0 +1,10 @@
+NAME="Tom OS"
+VERSION="26.10 (Neon Punk Edition)"
+ID=tomos
+ID_LIKE="ubuntu debian"
+PRETTY_NAME="Tom OS 26.10 (Neon Punk Edition)"
+VERSION_ID="26.10"
+HOME_URL="https://tomserver.co.uk/"
+SUPPORT_URL="https://tomserver.co.uk/"
+VERSION_CODENAME=resolute
+UBUNTU_CODENAME=resolute

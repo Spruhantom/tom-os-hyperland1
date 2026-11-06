@@ -1,0 +1,83 @@
+# ████ Tom OS package manifest ████
+
+# ---- live system ----
+live-boot
+live-config
+
+linux-firmware
+systemd-sysv
+sudo
+bash-completion
+nano
+curl
+wget
+less
+ca-certificates
+dbus
+dconf-cli
+desktop-file-utils
+polkitd
+xdg-utils
+
+# ---- Hyprland stack ----
+hyprland
+kitty
+waybar
+wofi
+mako-notifier
+hyprpaper
+hyprlock
+hypridle
+hyprpolkitagent
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
+
+# ---- session services ----
+network-manager
+network-manager-gnome
+pipewire
+pipewire-pulse
+wireplumber
+pavucontrol
+brightnessctl
+grim
+slurp
+wl-clipboard
+playerctl
+fastfetch
+
+# ---- GTK3/GTK4 applications ----
+nautilus
+gnome-text-editor
+epiphany-browser
+gvfs
+xdg-user-dirs
+xdg-user-dirs-gtk
+
+# ---- themes, icons, fonts ----
+papirus-icon-theme
+yaru-theme-gtk
+yaru-theme-icon
+fonts-jetbrains-mono
+fonts-noto-color-emoji
+
+# ---- ly runtime deps ----
+libpam0g
+libxcb1
+
+grub2-common
+grub-pc-bin
+grub-efi-amd64-bin
+efibootmgr
+squashfs-tools
+initramfs-tools
+# ---- installer ----
+calamares
+calamares-data
+qt6-wayland
+dosfstools
+os-prober
+
+# ---- WordCraft runtime ----
+libvulkan1
+mesa-vulkan-drivers

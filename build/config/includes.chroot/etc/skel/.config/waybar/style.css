@@ -1,0 +1,127 @@
+/* ████ Tom OS — waybar neon style ████ */
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(10, 10, 18, 0.85);
+    border: 2px solid rgba(255, 45, 150, 0.55);
+    border-radius: 14px;
+    color: #e8e8f0;
+    transition: none;
+}
+
+window#waybar.hidden {
+    opacity: 0.9;
+}
+
+#workspaces {
+    background: rgba(20, 20, 31, 0.6);
+    margin: 4px 6px 4px 4px;
+    padding: 0 4px;
+    border-radius: 10px;
+}
+
+#workspaces button {
+    padding: 0 8px;
+    color: #8a8aa0;
+    border-radius: 8px;
+    transition: none;
+}
+
+#workspaces button.active {
+    color: #0a0a12;
+    background: linear-gradient(90deg, #ff2d96, #c74cff);
+    border-radius: 8px;
+}
+
+#workspaces button:hover {
+    background: rgba(0, 240, 255, 0.15);
+    color: #00f0ff;
+}
+
+#custom-logo {
+    color: #ff2d96;
+    font-weight: bold;
+    padding: 0 10px;
+    text-shadow: 0 0 8px rgba(255, 45, 150, 0.8);
+}
+
+#window {
+    color: #b0b0c8;
+    padding: 0 8px;
+}
+
+#clock {
+    color: #00f0ff;
+    font-weight: bold;
+    padding: 0 12px;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+#pulseaudio {
+    color: #c74cff;
+    padding: 0 8px;
+}
+
+#network {
+    color: #00e5ff;
+    padding: 0 8px;
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
+}
+
+#network.disconnected {
+    color: #ff2d78;
+    text-shadow: 0 0 8px rgba(255, 45, 120, 0.5);
+}
+
+#network.linked {
+    color: #ffe14d;
+}
+
+#network:hover {
+    background: rgba(0, 240, 255, 0.15);
+    border-radius: 8px;
+}
+
+#cpu {
+    color: #ffe14d;
+    padding: 0 8px;
+}
+
+#memory {
+    color: #5c7cff;
+    padding: 0 8px;
+}
+
+#battery {
+    color: #00ff9c;
+    padding: 0 8px;
+}
+
+#battery.warning {
+    color: #ffe14d;
+}
+
+#battery.critical {
+    color: #ff2d78;
+    animation: blink 1s linear infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        color: #ff5fa0;
+    }
+}
+
+#tray {
+    padding: 0 6px;
+}
+
+tooltip {
+    background: #14141f;
+    border: 1px solid #ff2d96;
+    border-radius: 8px;
+}

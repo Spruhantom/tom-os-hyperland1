@@ -1,0 +1,50 @@
+#!/bin/sh
+# ████ Tom OS — final chroot setup ████
+set -e
+
+echo "[tomos] fixing permissions"
+chmod 755 /usr/bin/ly /usr/bin/tomos-session /usr/bin/tomos-install /usr/bin/tdm /usr/bin/tdm-greeter /usr/bin/tomos-dm
+chmod 755 /etc/ly/wsetup.sh /etc/ly/xsetup.sh 2>/dev/null || true
+chmod 644 /etc/ly/config.ini
+
+echo "[tomos] removing GNOME session bits pulled in by Recommends (Tom OS uses TDM + Hyprland)"
+apt-get -y purge gdm3 gnome-shell ubuntu-session gnome-session-bin \
+    gnome-remote-desktop yaru-theme-gnome-shell mutter-common 2>/dev/null || true
+
+echo "[tomos] enabling services"
+rm -f /etc/systemd/system/display-manager.service
+systemctl enable NetworkManager.service
+# TomOS Display Manager (greetd + cage + tdm-greeter) is the default login
+# screen; ly stays installed as a fallback (switch with: tomos-dm ly).
+systemctl disable ly.service 2>/dev/null || true
+systemctl enable --force greetd.service
+test "$(readlink /etc/systemd/system/display-manager.service)" != "" \
+    || ln -sf /usr/lib/systemd/system/greetd.service /etc/systemd/system/display-manager.service
+case "$(readlink -f /etc/systemd/system/display-manager.service)" in
+    */greetd.service) ;;
+    *) echo "ERROR: display-manager.service is not greetd/TDM" >&2; exit 1 ;;
+esac
+grep -q tdm-greeter /etc/greetd/config.toml || { echo "ERROR: greetd is not configured for TDM" >&2; exit 1; }
+for g in video render input; do getent group $g >/dev/null && usermod -aG $g _greetd || true; done
+install -d -o _greetd -g _greetd -m 750 /var/lib/tdm
+
+echo "[tomos] building font cache"
+fc-cache -f >/dev/null 2>&1 || true
+
+echo "[tomos] building dconf database"
+dconf update || true
+
+echo "[tomos] refreshing desktop database"
+update-desktop-database -q || true
+
+echo "[tomos] regenerating initramfs for all kernels"
+for k in /lib/modules/*/; do
+    update-initramfs -u -k "${k#/lib/modules/}" >/dev/null 2>&1 || true
+done
+
+echo "[tomos] trimming docs, man pages and locales (live image slimming)"
+rm -rf /usr/share/man /usr/share/doc /usr/share/gtk-doc /usr/share/info
+find /usr/share/locale -mindepth 1 -maxdepth 1 -type d ! -name "en_GB" ! -name "en" -exec rm -rf {} + 2>/dev/null || true
+rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*.deb /tmp/* /var/tmp/* 2>/dev/null || true
+
+echo "[tomos] done"

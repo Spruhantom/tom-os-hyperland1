@@ -1,0 +1,22 @@
+#!/bin/sh
+# ████ Tom OS — protect packages from live-build's autoremove ████
+# live-build re-runs `apt-get --purge -y autoremove` on every build
+# invocation (the install-pass block is not stagefile-guarded). On
+# resumes it has already purged curl and xz from the chroot. Marking
+# every installed package as manually installed makes the autoremove
+# a no-op, and we restore xz-utils for good measure.
+set -e
+
+echo "[tomos] marking all installed packages as manual"
+dpkg-query -W -f='${db:Status-Abbrev} ${binary:Package}\n' 2>/dev/null \
+    | awk '$1 ~ /^ii/ {print $2}' \
+    | xargs -r apt-mark manual >/dev/null 2>&1 || true
+
+echo "[tomos] ensuring xz-utils is present (best effort)"
+if ! command -v xz >/dev/null 2>&1; then
+    apt-get install -y --no-install-recommends xz-utils >/dev/null 2>&1 || \
+        { apt-get update -qq >/dev/null 2>&1 || true; \
+          apt-get install -y --no-install-recommends xz-utils >/dev/null 2>&1 || true; }
+fi
+
+echo "[tomos] package protection done"

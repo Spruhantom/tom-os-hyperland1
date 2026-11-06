@@ -1,0 +1,129 @@
+/* ████ Tom OS — GTK4 neon theme ████
+   Applies to native GTK4 apps. libadwaita apps (Nautilus, GNOME Text Editor)
+   follow the accent-color + dark preference set via dconf instead. */
+
+@define-color accent #ff2d96;
+@define-color accent_color #ff2d96;
+@define-color accent_bg_color #ff2d96;
+@define-color window_bg_color #0a0a12;
+@define-color window_fg_color #e8e8f0;
+@define-color view_bg_color #14141f;
+@define-color view_fg_color #e8e8f0;
+@define-color card_bg_color #14141f;
+@define-color card_fg_color #e8e8f0;
+@define-color headerbar_bg_color #14141f;
+@define-color headerbar_fg_color #e8e8f0;
+@define-color popover_bg_color #14141f;
+@define-color popover_fg_color #e8e8f0;
+@define-color dialog_bg_color #14141f;
+@define-color dialog_fg_color #e8e8f0;
+@define-color sidebar_bg_color #14141f;
+@define-color sidebar_fg_color #e8e8f0;
+@define-color borders rgba(255, 45, 150, 0.35);
+
+window,
+dialog,
+popover {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+headerbar {
+    background: linear-gradient(180deg, #1a1030, #14141f);
+    border-bottom: 2px solid @accent;
+    color: @window_fg_color;
+}
+
+button {
+    background: linear-gradient(180deg, #1d1d2b, #14141f);
+    border: 1px solid rgba(255, 45, 150, 0.35);
+    border-radius: 8px;
+    color: @window_fg_color;
+}
+
+button:hover {
+    border-color: #00f0ff;
+}
+
+button:active,
+button:checked {
+    background: linear-gradient(90deg, @accent, #c74cff);
+    border-color: #00f0ff;
+}
+
+button.suggested-action {
+    background: linear-gradient(90deg, @accent, #c74cff);
+    color: #ffffff;
+}
+
+entry,
+textview > text {
+    background-color: @view_bg_color;
+    color: @view_fg_color;
+    border: 1px solid rgba(255, 45, 150, 0.35);
+    border-radius: 8px;
+}
+
+entry:focus-within {
+    border-color: #00f0ff;
+}
+
+listview,
+gridview {
+    background-color: transparent;
+    color: @window_fg_color;
+}
+
+listview > row:selected,
+gridview > child:selected {
+    background: linear-gradient(90deg, rgba(255, 45, 150, 0.4), rgba(199, 76, 255, 0.4));
+}
+
+popover.menu > contents modelbutton:hover {
+    background: rgba(0, 240, 255, 0.12);
+}
+
+checkbutton check,
+checkbutton radio {
+    background-color: @view_bg_color;
+    border: 1px solid rgba(255, 45, 150, 0.35);
+}
+
+checkbutton check:checked {
+    background: linear-gradient(90deg, @accent, #c74cff);
+}
+
+switch > slider {
+    background-color: #00f0ff;
+}
+
+switch:checked {
+    background: linear-gradient(90deg, @accent, #c74cff);
+}
+
+scrollbar > range > trough > slider {
+    background-color: rgba(0, 240, 255, 0.45);
+    border-radius: 10px;
+}
+
+progressbar > trough {
+    background-color: #1d1d2b;
+    border-radius: 8px;
+}
+
+progressbar > trough > progress {
+    background: linear-gradient(90deg, @accent, #00f0ff);
+    border-radius: 8px;
+}
+
+selection {
+    background-color: @accent;
+    color: #ffffff;
+}
+
+tooltip {
+    background-color: #14141f;
+    border: 1px solid @accent;
+    border-radius: 8px;
+    color: @window_fg_color;
+}

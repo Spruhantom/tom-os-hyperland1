@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Install Tom OS
+Comment=Install Tom OS to your disk
+GenericName=System Installer
+Exec=/usr/bin/tomos-install
+Icon=tomos
+Terminal=false
+Categories=System;Utility;
+StartupNotify=true

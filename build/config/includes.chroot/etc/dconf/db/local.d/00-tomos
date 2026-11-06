@@ -1,0 +1,10 @@
+# ████ Tom OS — system-wide dconf defaults ████
+# libadwaita apps (Nautilus, GNOME Text Editor, Epiphany) pick these up:
+# dark shell + magenta accent + fonts + icons.
+[org/gnome/desktop/interface]
+color-scheme='prefer-dark'
+accent-color='magenta'
+icon-theme='Papirus-Dark'
+cursor-theme='Yaru'
+font-name='JetBrainsMono Nerd Font 10'
+gtk-theme='TomOS'

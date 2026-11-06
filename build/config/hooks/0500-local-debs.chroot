@@ -1,0 +1,44 @@
+#!/bin/sh
+# ████ Tom OS — install local .debs (kernel, WordCraft, Zoiper) ████
+set -e
+
+echo "=== Tom OS: installing local packages ==="
+
+# live-build pulls in the distro kernel (linux-generic); we ship our own
+# mainline 7.2.6 kernel instead, so purge everything that isn't it.
+echo "=== Tom OS: removing distro kernel ==="
+dpkg -l 2>/dev/null | awk '/^ii  linux-(image|modules|headers|generic)/ {print $2}' \
+	| grep -v '7\.2\.6-070206' | xargs -r apt-get -y purge
+
+# Install all bundled debs; dependency repair happens right after
+dpkg -i /root/tomos-debs/*.deb || apt-get -y -f install
+
+# Explicit verification — fail the build if anything is missing
+echo "=== Tom OS: verifying local packages ==="
+for pkg in \
+	linux-image-unsigned-7.2.6-070206-generic \
+	linux-modules-7.2.6-070206-generic \
+	linux-headers-7.2.6-070206 \
+	linux-headers-7.2.6-070206-generic \
+	wordcraft \
+	zoiper5 \
+	greetd \
+	cage \
+	quickshell; do
+	if ! dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed"; then
+		echo "ERROR: $pkg is not installed" >&2
+		exit 1
+	fi
+done
+echo "=== Tom OS: all local packages verified ==="
+
+# Verify the kernel files actually landed
+ls /lib/modules/7.2.6-070206-generic/kernel/ > /dev/null
+ls /boot/vmlinuz-7.2.6-070206-generic > /dev/null
+test -x /usr/bin/wordcraft || test -x /usr/bin/WordCraft || {
+	echo "ERROR: wordcraft binary missing" >&2; exit 1; }
+test -e /usr/bin/zoiper5 -o -e /usr/local/applications/Zoiper5/zoiper || {
+	echo "ERROR: zoiper binary missing" >&2; exit 1; }
+
+# The raw .deb files are no longer needed inside the live system
+rm -rf /root/tomos-debs

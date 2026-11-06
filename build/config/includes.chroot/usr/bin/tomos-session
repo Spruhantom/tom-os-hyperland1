@@ -1,0 +1,15 @@
+#!/bin/sh
+# ████ Tom OS session launcher ████
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=Hyprland
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export CLUTTER_BACKEND=wayland
+export SDL_VIDEODRIVER=wayland
+export MOZ_ENABLE_WAYLAND=1
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+if [ -x /usr/bin/start-hyprland ]; then
+    exec /usr/bin/start-hyprland
+fi
+exec /usr/bin/Hyprland

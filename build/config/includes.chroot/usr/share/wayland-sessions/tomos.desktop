@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Tom OS (Hyprland)
+Comment=Tom OS — neon punk Hyprland session
+Exec=/usr/bin/tomos-session
+Type=Application
+DesktopNames=Hyprland;TomOS

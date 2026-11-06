@@ -1,0 +1,35 @@
+#!/bin/sh
+# ████ Tom OS — bar switcher ████
+# usage: tomos-bar [start|toggle|waybar|quickshell]
+#   start      launch the bar you picked last time (default: quickshell)
+#   toggle     swap between waybar and the Quickshell neon bar (SUPER+SHIFT+B)
+#   waybar / quickshell   pick one explicitly
+STATE="${XDG_CONFIG_HOME:-$HOME/.config}/tomos/bar"
+current=$(cat "$STATE" 2>/dev/null || echo quickshell)
+
+case "${1:-start}" in
+    waybar|quickshell) want="$1" ;;
+    toggle) if [ "$current" = quickshell ]; then want=waybar; else want=quickshell; fi ;;
+    start) want="$current" ;;
+    *) echo "usage: tomos-bar [start|toggle|waybar|quickshell]" >&2; exit 2 ;;
+esac
+
+mkdir -p "$(dirname "$STATE")"
+echo "$want" > "$STATE"
+
+pkill -x waybar 2>/dev/null
+pkill -x quickshell 2>/dev/null
+pkill -x qs 2>/dev/null
+sleep 0.3
+
+# Quickshell draws the wallpaper itself; waybar mode uses hyprpaper.
+if [ "$want" = quickshell ] && command -v quickshell >/dev/null 2>&1; then
+    pkill -x hyprpaper 2>/dev/null
+    setsid -f quickshell >/dev/null 2>&1
+else
+    pgrep -x hyprpaper >/dev/null || setsid -f hyprpaper >/dev/null 2>&1
+    setsid -f waybar >/dev/null 2>&1
+fi
+
+[ "${1:-start}" = start ] || notify-send -a "Tom OS" "Tom OS" "Bar switched to $want" 2>/dev/null
+exit 0

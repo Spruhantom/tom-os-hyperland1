@@ -1,0 +1,22 @@
+componentName: tomos
+
+strings:
+  productName:         "Tom OS"
+  shortProductName:     "Tom OS"
+  version:             "26.10"
+  shortVersion:        "26.10"
+  versionedName:       "Tom OS 26.10 — Neon Punk Edition"
+  shortVersionedName:  "Tom OS 26.10"
+  bootloaderEntryName:  "Tom OS"
+
+images:
+  productLogo:         "logo.png"
+  productIcon:         "logo.png"
+  productWelcome:      "logo.png"
+
+slideshow: none
+
+style:
+  sidebarBackground:   "#0a0a12"
+  sidebarText:         "#e8e8f0"
+  sidebarTextSelect:   "#00f0ff"

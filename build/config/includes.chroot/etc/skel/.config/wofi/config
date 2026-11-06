@@ -1,0 +1,8 @@
+# ████ Tom OS — wofi ████
+width=600
+height=400
+show=drun
+prompt=Search...
+allow_images=true
+insensitive=true
+key_expand=true

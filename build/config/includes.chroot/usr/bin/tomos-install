@@ -1,0 +1,4 @@
+#!/bin/sh
+# ████ Tom OS installer launcher ████
+export QT_QPA_PLATFORM=wayland
+exec pkexec calamares "$@"

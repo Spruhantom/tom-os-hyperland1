@@ -1,0 +1,14 @@
+#!/bin/sh
+# ████ Tom OS — latest upstream linux-firmware (20261019) ████
+# The firmware is installed from the build host with upstream's
+# copy-firmware.sh --zstd (the build network's TLS interception is not
+# trusted inside the chroot). This hook only verifies it is present.
+set -e
+
+if [ -f /lib/firmware/.tomos-fw-20261019 ]; then
+    echo "[tomos] upstream linux-firmware 20261019 already installed"
+    exit 0
+fi
+
+echo "[tomos] ERROR: upstream firmware missing — seed it from the host first"
+exit 1
