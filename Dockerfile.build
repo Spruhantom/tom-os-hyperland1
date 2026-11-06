@@ -1,0 +1,12 @@
+# Build Tom OS (Ubuntu live-build) on any Linux host, including Arch/Omarchy.
+FROM ubuntu:26.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      live-build debootstrap squashfs-tools xorriso \
+      grub-pc-bin grub-efi-amd64-bin grub-common mtools \
+      rsync curl git ca-certificates dosfstools fdisk parted \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
