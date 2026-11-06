@@ -20,6 +20,21 @@ KERNEL_URL="https://kernel.ubuntu.com/mainline/v7.2.6/amd64"
 KERNEL_DIR="/root/tomos-debs"
 mkdir -p "$KERNEL_DIR"
 
+# live-build may remove curl during package cleanup even though it is listed
+# in the manifest. Ensure the downloader exists before fetching kernel debs.
+if ! command -v curl >/dev/null 2>&1; then
+    echo "[tomos] curl is missing; restoring curl and CA certificates"
+    apt-get update
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        install curl ca-certificates
+fi
+command -v curl >/dev/null 2>&1 || {
+    echo "ERROR: curl could not be installed in the build chroot" >&2
+    exit 1
+}
+
 for deb in \
     "linux-headers-${KERNEL_VERSION}_${KERNEL_BUILD}_all.deb" \
     "linux-headers-${KERNEL_VERSION}-generic_${KERNEL_BUILD}_amd64.deb" \
