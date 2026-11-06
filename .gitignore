@@ -1,5 +1,4 @@
 *.iso
-*.iso.part*
 build/chroot/
 build/binary/
 build/cache/

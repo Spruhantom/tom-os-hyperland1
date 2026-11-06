@@ -9,12 +9,15 @@ with Calamares.
 
 ## Download the ISO
 
-The ISO (2.7 GB) is attached to the
-[**v26.10 release**](../../releases/tag/v26.10). GitHub limits release files
-to 2 GB, so the ISO is split into three parts. Download all three and join them:
+The ISO (2.7 GB) is in the [`download/`](download) folder, stored with Git LFS.
+GitHub limits single files to 2 GB, so it is split into three parts. Open each
+part on GitHub and press **Download raw file**, or clone with Git LFS
+(`git lfs install && git clone https://github.com/Spruhantom/tom-os-hyperland1`).
+Then join the parts:
 
 **Linux / macOS**
 ```bash
+cd download
 cat tomos-26.10-amd64.iso.part1 tomos-26.10-amd64.iso.part2 tomos-26.10-amd64.iso.part3 > tomos-26.10-amd64.iso
 sha256sum -c tomos-26.10-amd64.iso.sha256
 ```
