@@ -46,4 +46,14 @@ install -m 644 /usr/share/grub/unicode.pf2 "$B/boot/grub/fonts/"
 
 printf 'Tom OS 26.10 "Neon Punk" - amd64 (%s)\n' "$(date -u +%Y%m%d)" > "$B/.disk-info"
 
-# Do not mask grub-mkrescue failures: the old pipeline's 
+# Preserve grub-mkrescue's exit status so a failed ISO build cannot be
+# mistaken for success.
+grub-mkrescue -o "$OUT" "$B" -- -volid TOMOS_2610 -joliet on
+
+if [[ ! -s "$OUT" ]]; then
+    echo "ERROR: grub-mkrescue did not produce a non-empty ISO at $OUT." >&2
+    exit 1
+fi
+
+sha256sum "$OUT" > "$OUT.sha256"
+ls -lh "$OUT" "$OUT.sha256"
