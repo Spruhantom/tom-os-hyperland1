@@ -23,8 +23,19 @@ run_container_build() {
         exit 1
     fi
 
+    local -a runtime_prefix=()
+    # live-build needs real mount/chroot privileges. Use rootful Podman so
+    # the build does not depend on rootless user-namespace mount support.
+    if [[ "$runtime" == "podman" && "$(id -u)" -ne 0 ]]; then
+        if ! command -v sudo >/dev/null 2>&1; then
+            echo "ERROR: sudo is required to run Podman for the ISO build." >&2
+            exit 1
+        fi
+        runtime_prefix=(sudo)
+    fi
+
     echo "[Tom OS] Building with Ubuntu 26.04 in $runtime (host remains unchanged)."
-    "$runtime" build -t "$IMAGE" -f "$ROOT/Dockerfile.build" "$ROOT"
+    "${runtime_prefix[@]}" "$runtime" build -t "$IMAGE" -f "$ROOT/Dockerfile.build" "$ROOT"
 
     local -a runtime_args=(run --rm --privileged)
     if [[ "$runtime" == "podman" ]]; then
