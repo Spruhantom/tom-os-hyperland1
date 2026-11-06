@@ -4,7 +4,7 @@
 set -Eeuo pipefail
 
 REPO_URL="https://github.com/Spruhantom/tom-os-hyperland1.git"
-DEST="${TOMOS_DIR:-"$HOME/tom-os-hyperland1"}"
+DEST="$(realpath -m -- "${TOMOS_DIR:-"$HOME/tom-os-hyperland1"}")"
 
 if [[ ! -r /etc/os-release ]]; then
     echo "ERROR: Cannot identify this Linux distribution." >&2
@@ -31,7 +31,7 @@ echo "[Tom OS] Installing host build tools..."
 if [[ -n "$SUDO" ]]; then
     "$SUDO" pacman -Syu --needed --noconfirm podman git grub xorriso mtools
 else
-    pacman -Sy --needed --noconfirm podman git grub xorriso mtools
+    pacman -Syu --needed --noconfirm podman git grub xorriso mtools
 fi
 
 if [[ -e "$DEST" ]]; then
