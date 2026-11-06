@@ -70,7 +70,6 @@ for pkg in \
 	linux-headers-7.2.6-070206 \
 	linux-headers-7.2.6-070206-generic \
 	tomos-worddocedit \
-	zoiper5 \
 	greetd \
 	cage \
 	quickshell; do
@@ -86,8 +85,17 @@ ls /lib/modules/7.2.6-070206-generic/kernel/ > /dev/null
 ls /boot/vmlinuz-7.2.6-070206-generic > /dev/null
 test -x /usr/bin/wordcraft || test -x /usr/bin/WordCraft || {
 	echo "ERROR: WordDocEdit (wordcraft) binary missing" >&2; exit 1; }
-test -e /usr/bin/zoiper5 -o -e /usr/local/applications/Zoiper5/zoiper || {
-	echo "ERROR: zoiper binary missing" >&2; exit 1; }
+# Zoiper is proprietary and is not redistributed in this source tree. If the
+# user supplies the official Zoiper .deb in tomos-debs, it is installed above.
+if dpkg-query -W -f='${Status}' zoiper5 2>/dev/null | grep -q "install ok installed"; then
+    test -x /usr/bin/zoiper5 || test -x /usr/local/applications/Zoiper5/zoiper || {
+        echo "ERROR: Zoiper package is installed but its executable is missing" >&2
+        exit 1
+    }
+    echo "[tomos] Zoiper installed from supplied package"
+else
+    echo "[tomos] Zoiper not bundled; install the official Debian package separately if required"
+fi
 
 # The raw .deb files are no longer needed inside the live system
 rm -rf /root/tomos-debs
