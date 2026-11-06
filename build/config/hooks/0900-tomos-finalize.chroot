@@ -38,6 +38,23 @@ test -x /usr/bin/tomos-install || { echo "ERROR: Tom OS Calamares launcher is mi
 test -s /etc/calamares/settings.conf || { echo "ERROR: Calamares settings.conf is missing" >&2; exit 1; }
 test -s /etc/calamares/branding/tomos/branding.desc || { echo "ERROR: Tom OS Calamares branding is missing" >&2; exit 1; }
 
+echo "[tomos] ensuring NetworkManager service is installed"
+if ! dpkg-query -W -f='${Status}' network-manager 2>/dev/null | grep -q "install ok installed" \
+    || { [ ! -e /usr/lib/systemd/system/NetworkManager.service ] && [ ! -e /lib/systemd/system/NetworkManager.service ]; }; then
+    echo "[tomos] NetworkManager package or service unit is missing; reinstalling"
+    apt-get update
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        install network-manager
+fi
+
+if [ ! -e /usr/lib/systemd/system/NetworkManager.service ] && [ ! -e /lib/systemd/system/NetworkManager.service ]; then
+    echo "ERROR: NetworkManager.service is still missing after package installation" >&2
+    dpkg-query -W network-manager 2>/dev/null || true
+    exit 1
+fi
+
 echo "[tomos] enabling services"
 rm -f /etc/systemd/system/display-manager.service
 systemctl enable NetworkManager.service
