@@ -81,6 +81,18 @@ Restart / Shut down buttons.
 
 Requirements: about 14 GB free disk space and an internet connection.
 
+### One-line online build command (Omarchy / Arch)
+
+To download the bootstrapper, install the required host tools, clone/update the
+source, build Tom OS, and assemble the hybrid ISO, run:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Spruhantom/tom-os-hyperland1/main/install-build.sh | bash
+```
+
+By default, the source is placed in `~/tom-os-hyperland1`. To choose another
+folder, set `TOMOS_DIR` before running the command.
+
 ### On Omarchy / Arch Linux
 
 The build script automatically detects Arch-based systems and runs the Ubuntu
