@@ -42,7 +42,7 @@ run_container_build() {
         runtime_args+=(--security-opt label=disable)
     fi
 
-    "$runtime" "${runtime_args[@]}" \
+    "${runtime_prefix[@]}" "$runtime" "${runtime_args[@]}" \
         --env TOMOS_IN_CONTAINER=1 \
         --env HOST_UID="$(id -u)" \
         --env HOST_GID="$(id -g)" \
