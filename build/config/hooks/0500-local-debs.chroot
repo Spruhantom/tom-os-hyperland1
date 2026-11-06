@@ -6,7 +6,6 @@ set -e
 # conflicts non-interactively, keeping the image configuration already staged
 # in the chroot instead of waiting forever for stdin.
 export DEBIAN_FRONTEND=noninteractive
-DPKG_CONFFILE_OPTIONS=(--force-confdef --force-confold)
 
 echo "=== Tom OS: installing local packages ==="
 
@@ -17,7 +16,7 @@ dpkg -l 2>/dev/null | awk '/^ii  linux-(image|modules|headers|generic)/ {print $
 	| grep -v '7\.2\.6-070206' | xargs -r apt-get -y purge
 
 # Install all bundled debs; dependency repair happens right after
-dpkg "${DPKG_CONFFILE_OPTIONS[@]}" -i /root/tomos-debs/*.deb || \
+dpkg --force-confdef --force-confold -i /root/tomos-debs/*.deb || \
     apt-get -y \
         -o Dpkg::Options::=--force-confdef \
         -o Dpkg::Options::=--force-confold \
