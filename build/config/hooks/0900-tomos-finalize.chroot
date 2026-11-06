@@ -2,6 +2,28 @@
 # ████ Tom OS — final chroot setup ████
 set -e
 
+# live-build's chroot_hacks currently invokes update-initramfs with -t,
+# which is unsupported by Ubuntu 26.04's initramfs-tools. Preserve the
+# packaged implementation and install a tiny compatibility wrapper that
+# drops only that obsolete flag; all other arguments pass through unchanged.
+UPDATE_INITRAMFS="$(command -v update-initramfs || true)"
+if [ -n "$UPDATE_INITRAMFS" ]; then
+    UPDATE_INITRAMFS_REAL="$(readlink -f "$UPDATE_INITRAMFS")"
+    if [ -x "$UPDATE_INITRAMFS_REAL" ] && [ ! -e "${UPDATE_INITRAMFS_REAL}.tomos-real" ]; then
+        mv "$UPDATE_INITRAMFS_REAL" "${UPDATE_INITRAMFS_REAL}.tomos-real"
+        cat > "$UPDATE_INITRAMFS_REAL" <<EOF
+#!/bin/sh
+set --
+for arg do
+    [ "$arg" = "-t" ] || set -- "$@" "$arg"
+done
+exec "${UPDATE_INITRAMFS_REAL}.tomos-real" "$@"
+EOF
+        chmod 755 "$UPDATE_INITRAMFS_REAL"
+        echo "[tomos] installed live-build update-initramfs compatibility wrapper"
+    fi
+fi
+
 echo "[tomos] fixing permissions"
 chmod 755 /usr/bin/ly /usr/bin/tomos-session /usr/bin/tomos-install /usr/bin/tdm /usr/bin/tdm-greeter /usr/bin/tomos-dm
 chmod 755 /etc/ly/wsetup.sh /etc/ly/xsetup.sh 2>/dev/null || true
