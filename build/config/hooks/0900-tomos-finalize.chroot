@@ -11,13 +11,13 @@ if [ -n "$UPDATE_INITRAMFS" ]; then
     UPDATE_INITRAMFS_REAL="$(readlink -f "$UPDATE_INITRAMFS")"
     if [ -x "$UPDATE_INITRAMFS_REAL" ] && [ ! -e "${UPDATE_INITRAMFS_REAL}.tomos-real" ]; then
         mv "$UPDATE_INITRAMFS_REAL" "${UPDATE_INITRAMFS_REAL}.tomos-real"
-        cat > "$UPDATE_INITRAMFS_REAL" <<EOF
+        cat > "$UPDATE_INITRAMFS_REAL" <<'EOF'
 #!/bin/sh
 set --
 for arg do
     [ "$arg" = "-t" ] || set -- "$@" "$arg"
 done
-exec "${UPDATE_INITRAMFS_REAL}.tomos-real" "$@"
+exec "${0}.tomos-real" "$@"
 EOF
         chmod 755 "$UPDATE_INITRAMFS_REAL"
         echo "[tomos] installed live-build update-initramfs compatibility wrapper"
