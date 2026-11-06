@@ -46,8 +46,24 @@ if [[ -e "$DEST" ]]; then
         echo "Set TOMOS_DIR to a new directory, then retry." >&2
         exit 1
     fi
+    # Older installer versions ran chmod +x on these scripts. If that
+    # changed only their executable bit (not their contents), restore the
+    # mode recorded in Git so the checkout can update cleanly.
+    for script in build.sh make-iso.sh; do
+        if [[ -f "$DEST/$script" ]] && git -C "$DEST" cat-file -e "HEAD:$script" 2>/dev/null \
+            && cmp -s "$DEST/$script" <(git -C "$DEST" show "HEAD:$script"); then
+            mode="$(git -C "$DEST" ls-tree HEAD -- "$script" | awk '{print $1}')"
+            case "$mode" in
+                100644) chmod 644 "$DEST/$script" ;;
+                100755) chmod 755 "$DEST/$script" ;;
+            esac
+        fi
+    done
+
     if [[ -n "$(git -C "$DEST" status --porcelain)" ]]; then
-        echo "ERROR: $DEST has uncommitted changes. Commit or stash them before updating." >&2
+        echo "ERROR: $DEST contains local changes. Nothing has been overwritten." >&2
+        echo "Commit or stash your changes, or use TOMOS_DIR for a fresh checkout." >&2
+        git -C "$DEST" status --short >&2
         exit 1
     fi
     echo "[Tom OS] Updating existing checkout..."
