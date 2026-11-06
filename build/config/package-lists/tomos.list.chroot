@@ -17,6 +17,7 @@ dbus
 dconf-cli
 desktop-file-utils
 polkitd
+pkexec
 xdg-utils
 
 # ---- Hyprland stack ----
