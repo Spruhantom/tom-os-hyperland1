@@ -45,7 +45,7 @@ apt-get -y \
 # Remove the distro kernel only after the replacement is installed.
 echo "=== Tom OS: removing distro kernel ==="
 dpkg -l 2>/dev/null | awk '/^ii  linux-(image|modules|headers|generic)/ {print $2}' \
-    | grep -v '7\\.2\\.6-070206' | xargs -r apt-get -y purge
+    | grep -v '7\.2\.6-070206' | xargs -r apt-get -y purge
 
 # Explicit verification — fail the build if anything is missing
 echo "=== Tom OS: verifying local packages ==="
