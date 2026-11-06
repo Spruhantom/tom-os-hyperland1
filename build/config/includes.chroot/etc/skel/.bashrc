@@ -9,7 +9,7 @@ if [ -n "$PS1" ] && [ -n "$KITTY_WINDOW_ID" ] && [ -z "$TOMOS_NO_FASTFETCH" ] &&
     # drop any late terminal-query replies so they don't land on the prompt
     read -r -s -t 0.1 -d '' -n 65536 _tomos_junk 2>/dev/null; unset _tomos_junk
     printf '\e[1;95mwelcome to TOM OS\e[0m \e[90m//\e[0m \e[1;96mneon punk edition\e[0m\n'
-    printf '\e[90mtip:\e[0m \e[35mSUPER+ENTER\e[0m kitty \e[90m|\e[0m \e[35mSUPER+D\e[0m apps \e[90m|\e[0m \e[35mSUPER+W\e[0m WordCraft \e[90m|\e[0m \e[35mSUPER+L\e[0m lock\n'
+    printf '\e[90mtip:\e[0m \e[35mSUPER+ENTER\e[0m kitty \e[90m|\e[0m \e[35mSUPER+D\e[0m apps \e[90m|\e[0m \e[35mSUPER+W\e[0m WordDocEdit \e[90m|\e[0m \e[35mSUPER+L\e[0m lock\n'
     printf '\n'
 elif [ -n "$PS1" ]; then
     printf '\n'
@@ -20,7 +20,7 @@ elif [ -n "$PS1" ]; then
     printf '\e[1;95m  █    ███  █   █ \e[0m   \e[1;96m ███  ████  \e[0m\n'
     printf '\n'
     printf '\e[1;95mwelcome to TOM OS\e[0m \e[90m//\e[0m \e[1;96mneon punk edition\e[0m\n'
-    printf '\e[90mtip:\e[0m \e[35mSUPER+ENTER\e[0m kitty \e[90m|\e[0m \e[35mSUPER+D\e[0m apps \e[90m|\e[0m \e[35mSUPER+W\e[0m WordCraft \e[90m|\e[0m \e[35mSUPER+L\e[0m lock\n'
+    printf '\e[90mtip:\e[0m \e[35mSUPER+ENTER\e[0m kitty \e[90m|\e[0m \e[35mSUPER+D\e[0m apps \e[90m|\e[0m \e[35mSUPER+W\e[0m WordDocEdit \e[90m|\e[0m \e[35mSUPER+L\e[0m lock\n'
     printf '\n'
 fi
 

@@ -87,7 +87,7 @@ def add(keys, action):
 
 add_section("Applications")
 add("SUPER + Enter", "kitty — terminal")
-add("SUPER + W", "WordCraft — text editor / word processor")
+add("SUPER + W", "Tom OS WordDocEdit — word processor")
 add("SUPER + Z", "Zoiper 5 — SIP softphone")
 add("SUPER + E", "Nautilus — file manager")
 add("SUPER + B", "GNOME Web — browser")

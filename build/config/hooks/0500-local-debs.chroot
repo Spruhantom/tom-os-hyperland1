@@ -1,5 +1,5 @@
 #!/bin/sh
-# ████ Tom OS — install local .debs (kernel, WordCraft, Zoiper) ████
+# ████ Tom OS — install local .debs (kernel, Tom OS WordDocEdit, Zoiper) ████
 set -e
 
 echo "=== Tom OS: installing local packages ==="
@@ -20,7 +20,7 @@ for pkg in \
 	linux-modules-7.2.6-070206-generic \
 	linux-headers-7.2.6-070206 \
 	linux-headers-7.2.6-070206-generic \
-	wordcraft \
+	tomos-worddocedit \
 	zoiper5 \
 	greetd \
 	cage \
@@ -36,7 +36,7 @@ echo "=== Tom OS: all local packages verified ==="
 ls /lib/modules/7.2.6-070206-generic/kernel/ > /dev/null
 ls /boot/vmlinuz-7.2.6-070206-generic > /dev/null
 test -x /usr/bin/wordcraft || test -x /usr/bin/WordCraft || {
-	echo "ERROR: wordcraft binary missing" >&2; exit 1; }
+	echo "ERROR: WordDocEdit (wordcraft) binary missing" >&2; exit 1; }
 test -e /usr/bin/zoiper5 -o -e /usr/local/applications/Zoiper5/zoiper || {
 	echo "ERROR: zoiper binary missing" >&2; exit 1; }
 

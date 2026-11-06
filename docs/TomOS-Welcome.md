@@ -29,7 +29,7 @@
 
 ## 04 · The apps
 
-- **WordCraft 0.11.0** — an open-source, Word-style editor that handles .docx, Markdown and PDF — `SUPER+W`.
+- **Tom OS WordDocEdit** — the Tom OS word processor, a neon-themed edition of WordCraft 0.15.1 that handles .docx, .odt, .rtf, Markdown and PDF export — `SUPER+W`.
 - **Zoiper 5 free** — a full SIP softphone for calls and VoIP accounts — `SUPER+Z`.
 - **Files, web, text** — Nautilus file manager, GNOME Web browser and GNOME Text Editor, all GTK-themed.
 - **Sound done right** — PipeWire audio with a PulseAudio compatibility layer and pavucontrol mixing.

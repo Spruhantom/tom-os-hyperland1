@@ -7,9 +7,11 @@ with Calamares.
 
 ![Tom OS desktop](screenshots/final-iso-kitty-fastfetch.png)
 
+![Tom OS WordDocEdit in the live ISO](screenshots/iso-worddocedit-editor.png)
+
 ## Download the ISO
 
-The ISO (2.7 GB) is in the [`download/`](download) folder, stored with Git LFS.
+The ISO (2.6 GB) is in the [`download/`](download) folder, stored with Git LFS.
 GitHub limits single files to 2 GB, so it is split into three parts. Open each
 part on GitHub and press **Download raw file**, or clone with Git LFS
 (`git lfs install && git clone https://github.com/Spruhantom/tom-os-hyperland1`).
@@ -29,7 +31,7 @@ certutil -hashfile tomos-26.10-amd64.iso SHA256
 ```
 
 The SHA-256 of the full ISO is:
-`8a7d62e3f3dc0a88eaaf417d959fd494d2b642f6557942a5db287dc77ee6db48`
+`51ce25324e256481823bc3a957e3d74f06dc9c4bc6c16baea3e3c6ab97862b4f`
 
 Then write it to a USB stick with Ventoy, Rufus, balenaEtcher or `dd`.
 It boots in BIOS and UEFI mode (Secure Boot off).
@@ -57,7 +59,7 @@ A lightweight, Ubuntu-based live OS with a neon-punk design — built for Tom.
 - **Desktop shell:** Quickshell neon bar + wallpaper (default) — SUPER+SHIFT+B switches to Waybar
 - **Window manager:** Hyprland 0.53.3 (Wayland)
 - **Terminal:** kitty with a custom neon palette; fastfetch with a Tom OS logo runs when kitty opens
-- **Text editor / word processor:** WordCraft 0.11.0 (open-source Word-style editor, .docx/MD/PDF)
+- **Word processor:** [Tom OS WordDocEdit](https://github.com/Spruhantom/tomos-worddocedit) 0.15.1 — the neon-themed Tom OS edition of WordCraft (.docx, .odt, .rtf, Markdown, PDF export) — SUPER+W
 - **SIP softphone:** Zoiper 5 free (5.6.15) — SUPER+Z
 - **Apps:** Nautilus, GNOME Text Editor, GNOME Web (GTK3 + GTK4 themed), Waybar, wofi, mako, pavucontrol
 - **Installer:** Calamares 3.3.14 — "Install Tom OS" in the app launcher
@@ -110,7 +112,7 @@ menu).
 
 Launch "Install Tom OS" (SUPER+D → search, or the desktop entry). Calamares
 unpacks the live system onto the disk, sets up GRUB, creates your user, and
-enables TDM (greetd) + NetworkManager in the installed system. WordCraft, the kernel
+enables TDM (greetd) + NetworkManager in the installed system. WordDocEdit, the kernel
 7.2.6 + headers and all theming carry over.
 
 ## Key bindings
@@ -119,7 +121,7 @@ enables TDM (greetd) + NetworkManager in the installed system. WordCraft, the ke
 |---|---|
 | SUPER+ENTER | kitty |
 | SUPER+D | app launcher (wofi) |
-| SUPER+W | WordCraft |
+| SUPER+W | Tom OS WordDocEdit |
 | SUPER+E | Nautilus |
 | SUPER+B | GNOME Web |
 | SUPER+Q | close window |
@@ -160,16 +162,19 @@ tomos/
   kernel team (v7.2.6). Point releases newer than the build are folded in via
   the Ubuntu 7.0 stock kernel not being included — 7.2.6 is the sole kernel.
 - Status: the v26.10 ISO was built and boot-tested in QEMU (UEFI): GRUB →
-  TDM login → Hyprland with the Quickshell bar → kitty with fastfetch.
+  TDM login → Hyprland with the Quickshell bar → kitty with fastfetch, and
+  SUPER+W → Tom OS WordDocEdit (rebuilt 6 Nov 2026).
 
 ## Third-party packages not stored in git
 
 `build/config/includes.chroot/root/tomos-debs/` already holds the small helper
-packages (greetd, cage, wlroots 0.19, Quickshell…). Add these large ones
+packages (greetd, cage, wlroots 0.19, Quickshell…) and
+`tomos-worddocedit_0.15.1+tomos1-1_amd64.deb` (built from
+[tomos-worddocedit](https://github.com/Spruhantom/tomos-worddocedit); it replaces
+the `wordcraft` package). Add these large ones
 before building (too big for git, or not redistributable):
 
 - `linux-image-unsigned-7.2.6-070206-generic_*_amd64.deb`, `linux-modules-7.2.6-070206-generic_*_amd64.deb`, `linux-headers-7.2.6-070206_*_all.deb` (+ the generic headers) — from the [Ubuntu mainline kernel archive](https://kernel.ubuntu.com/mainline/v7.2.6/)
-- `wordcraft-0.11.0-linux-x86_64.deb` — from the WordCraft releases
 - `zoiper5_5.6.15_amd64.deb` — Zoiper 5 free, from [zoiper.com](https://www.zoiper.com/en/voip-softphone/download/current)
 
 After `lb build` has produced the chroot, `sudo ./make-iso.sh` repacks the

@@ -78,6 +78,6 @@ qt6-wayland
 dosfstools
 os-prober
 
-# ---- WordCraft runtime ----
+# ---- Tom OS WordDocEdit (WordCraft) runtime ----
 libvulkan1
 mesa-vulkan-drivers

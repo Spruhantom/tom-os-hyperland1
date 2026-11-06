@@ -143,7 +143,7 @@ story.append(Spacer(1, 4.5*mm))
 story.append(section("04 · The apps"))
 story.append(Spacer(1, 1.5*mm))
 story.append(build_table([
-    item("WordCraft 0.11.0", "an open-source, Word-style editor that handles .docx, Markdown and PDF — SUPER+W."),
+    item("Tom OS WordDocEdit", "the Tom OS word processor, a neon-themed edition of WordCraft 0.15.1 for .docx, .odt, .rtf, Markdown and PDF export — SUPER+W."),
     item("Zoiper 5 free", "a full SIP softphone for calls and VoIP accounts — SUPER+Z."),
     item("Files, web, text", "Nautilus file manager, GNOME Web browser and GNOME Text Editor, all GTK-themed."),
     item("Sound done right", "PipeWire audio with a PulseAudio compatibility layer and pavucontrol mixing."),
