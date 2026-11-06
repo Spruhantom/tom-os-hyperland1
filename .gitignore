@@ -7,3 +7,5 @@ tdm/target/
 build/config/includes.chroot/root/tomos-debs/linux-*.deb
 build/config/includes.chroot/root/tomos-debs/wordcraft-*.deb
 build/config/includes.chroot/root/tomos-debs/zoiper5_*.deb
+build/chroot.headers
+build/chroot.packages.install
