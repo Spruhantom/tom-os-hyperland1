@@ -29,7 +29,7 @@ fi
 
 echo "[Tom OS] Installing host build tools..."
 if [[ -n "$SUDO" ]]; then
-    "$SUDO" pacman -Sy --needed --noconfirm podman git grub xorriso mtools
+    "$SUDO" pacman -Syu --needed --noconfirm podman git grub xorriso mtools
 else
     pacman -Sy --needed --noconfirm podman git grub xorriso mtools
 fi
