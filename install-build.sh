@@ -60,7 +60,11 @@ if [[ -e "$DEST" ]]; then
         fi
     done
 
-    if [[ -n "$(git -C "$DEST" status --porcelain)" ]]; then
+    # live-build creates these two untracked metadata files in build/.
+    # They are disposable build outputs, not user source changes.
+    if [[ -n "$(git -C "$DEST" status --porcelain -- . \
+        ':(exclude)build/chroot.headers' \
+        ':(exclude)build/chroot.packages.install')" ]]; then
         echo "ERROR: $DEST contains local changes. Nothing has been overwritten." >&2
         echo "Commit or stash your changes, or use TOMOS_DIR for a fresh checkout." >&2
         git -C "$DEST" status --short >&2
