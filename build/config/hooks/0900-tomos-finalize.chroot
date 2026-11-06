@@ -75,16 +75,33 @@ install -d -o _greetd -g _greetd -m 750 /var/lib/tdm
 echo "[tomos] building font cache"
 fc-cache -f >/dev/null 2>&1 || true
 
+echo "[tomos] ensuring desktop database tools are installed"
+if ! command -v dconf >/dev/null 2>&1 || ! command -v update-desktop-database >/dev/null 2>&1; then
+    apt-get update
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        install dconf-cli desktop-file-utils
+fi
+
 echo "[tomos] building dconf database"
-dconf update || true
+if command -v dconf >/dev/null 2>&1; then
+    dconf update || true
+else
+    echo "[tomos] dconf is unavailable; skipping optional database rebuild"
+fi
 
 echo "[tomos] refreshing desktop database"
-update-desktop-database -q || true
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database -q || true
+else
+    echo "[tomos] desktop-file-utils is unavailable; skipping optional database rebuild"
+fi
 
-echo "[tomos] regenerating initramfs for all kernels"
-for k in /lib/modules/*/; do
-    update-initramfs -u -k "${k#/lib/modules/}" >/dev/null 2>&1 || true
-done
+# The pinned kernel package already generated its initramfs (dracut output is
+# checked during the local-deb hook). Do not call update-initramfs here:
+# Ubuntu's update-initramfs helper may not support the kernel package's
+# initramfs tooling and can emit an invalid-option error during live-build.
 
 echo "[tomos] trimming docs, man pages and locales (live image slimming)"
 rm -rf /usr/share/man /usr/share/doc /usr/share/gtk-doc /usr/share/info
