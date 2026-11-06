@@ -58,12 +58,11 @@ else
 fi
 
 cd "$DEST"
-chmod +x build.sh make-iso.sh
 echo "[Tom OS] Starting the Ubuntu 26.04 container build..."
-./build.sh
+bash ./build.sh
 
 echo "[Tom OS] Assembling the hybrid BIOS/UEFI ISO..."
-./make-iso.sh "$DEST/tomos-26.10-amd64.iso"
+bash ./make-iso.sh "$DEST/tomos-26.10-amd64.iso"
 
 echo
 echo "Tom OS build finished."
