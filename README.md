@@ -79,17 +79,45 @@ Restart / Shut down buttons.
 
 ## Building the ISO
 
-Requirements: Ubuntu 26.04 (or similar), ~14 GB free disk, root access, internet.
+Requirements: about 14 GB free disk space and an internet connection.
+
+### On Omarchy / Arch Linux
+
+The build script automatically detects Arch-based systems and runs the Ubuntu
+26.04 `live-build` toolchain in an isolated Podman container. This keeps APT
+and Debian build dependencies out of your Omarchy installation.
+
+Install Podman and build:
 
 ```bash
-sudo apt install live-build debootstrap squashfs-tools xorriso \
-     grub-pc-bin grub-efi-amd64-bin mtools rsync curl
+sudo pacman -S podman
 ./build.sh
 ```
 
-The finished image lands at `build/tomos-live-amd64.iso` (also a
-`live-image-amd64.hybrid.iso` copy). The build is fully reproducible from
-this tree: all dotfiles, themes, hooks and package lists are in `build/config/`.
+The first run builds the `tomos-ubuntu-builder:26.04` container image and
+downloads the Ubuntu build dependencies. Later runs reuse the cached image.
+The container is run with the privileges needed by `live-build`; the script
+returns generated build files to your normal user.
+
+Docker is also supported if you already have it installed.
+
+### On Ubuntu / Debian
+
+Install the native build dependencies and run the same script:
+
+```bash
+sudo apt-get update
+sudo apt-get install live-build debootstrap squashfs-tools xorriso \
+     grub-pc-bin grub-efi-amd64-bin grub-common mtools rsync curl git
+./build.sh
+```
+
+The finished live-build output is in `build/`. To assemble the final hybrid
+BIOS + UEFI ISO, run `./make-iso.sh`. On Omarchy, install its host-side tools
+first with `sudo pacman -S grub xorriso mtools`; on Ubuntu/Debian they are
+included in the package list above.
+
+All dotfiles, themes, hooks and package lists are stored in `build/config/`.
 
 ## Flashing to USB
 
