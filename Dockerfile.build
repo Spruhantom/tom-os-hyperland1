@@ -13,6 +13,13 @@ RUN apt-get -o Acquire::Retries=5 \
       live-build debootstrap squashfs-tools xorriso \
       grub-pc-bin grub-efi-amd64-bin grub-common mtools \
       rsync curl git ca-certificates dosfstools fdisk parted \
+ && LIVE_BUILD_HACKS="$(dpkg -L live-build | grep '/chroot_hacks
+
+WORKDIR /workspace
+ | head -n 1)" \
+ && test -n "$LIVE_BUILD_HACKS" \
+ && sed -i 's/-k all -t -u/-k all -u/g' "$LIVE_BUILD_HACKS" \
+ && ! grep -q -- '-k all -t -u' "$LIVE_BUILD_HACKS" \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace
