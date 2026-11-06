@@ -21,9 +21,19 @@ if ! command -v calamares >/dev/null 2>&1; then
         install calamares calamares-data
 fi
 
+echo "[tomos] ensuring PolicyKit pkexec is installed"
+if ! command -v pkexec >/dev/null 2>&1; then
+    echo "[tomos] pkexec is missing; refreshing Ubuntu package indexes"
+    apt-get update
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        install pkexec polkitd
+fi
+
 echo "[tomos] validating Calamares installer"
 command -v calamares >/dev/null 2>&1 || { echo "ERROR: Calamares binary is missing" >&2; exit 1; }
-command -v pkexec >/dev/null 2>&1 || { echo "ERROR: pkexec is missing; add the pkexec package" >&2; exit 1; }
+test -x /usr/bin/pkexec || { echo "ERROR: pkexec is missing after PolicyKit installation" >&2; exit 1; }
 test -x /usr/bin/tomos-install || { echo "ERROR: Tom OS Calamares launcher is missing or not executable" >&2; exit 1; }
 test -s /etc/calamares/settings.conf || { echo "ERROR: Calamares settings.conf is missing" >&2; exit 1; }
 test -s /etc/calamares/branding/tomos/branding.desc || { echo "ERROR: Tom OS Calamares branding is missing" >&2; exit 1; }
