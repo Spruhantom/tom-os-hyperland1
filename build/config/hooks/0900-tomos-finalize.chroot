@@ -11,6 +11,13 @@ echo "[tomos] removing GNOME session bits pulled in by Recommends (Tom OS uses T
 apt-get -y purge gdm3 gnome-shell ubuntu-session gnome-session-bin \
     gnome-remote-desktop yaru-theme-gnome-shell mutter-common 2>/dev/null || true
 
+echo "[tomos] validating Calamares installer"
+command -v calamares >/dev/null 2>&1 || { echo "ERROR: Calamares binary is missing" >&2; exit 1; }
+command -v pkexec >/dev/null 2>&1 || { echo "ERROR: pkexec is missing; add the pkexec package" >&2; exit 1; }
+test -x /usr/bin/tomos-install || { echo "ERROR: Tom OS Calamares launcher is missing or not executable" >&2; exit 1; }
+test -s /etc/calamares/settings.conf || { echo "ERROR: Calamares settings.conf is missing" >&2; exit 1; }
+test -s /etc/calamares/branding/tomos/branding.desc || { echo "ERROR: Tom OS Calamares branding is missing" >&2; exit 1; }
+
 echo "[tomos] enabling services"
 rm -f /etc/systemd/system/display-manager.service
 systemctl enable NetworkManager.service
