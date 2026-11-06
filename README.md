@@ -60,7 +60,7 @@ A lightweight, Ubuntu-based live OS with a neon-punk design — built for Tom.
 - **Window manager:** Hyprland 0.53.3 (Wayland)
 - **Terminal:** kitty with a custom neon palette; fastfetch with a Tom OS logo runs when kitty opens
 - **Word processor:** [Tom OS WordDocEdit](https://github.com/Spruhantom/tomos-worddocedit) 0.15.1 — the neon-themed Tom OS edition of WordCraft (.docx, .odt, .rtf, Markdown, PDF export) — SUPER+W
-- **SIP softphone:** Zoiper 5 free (5.6.15) — SUPER+Z
+- **SIP softphone:** optional Zoiper 5 (proprietary; not redistributed with Tom OS). To enable SUPER+Z, download the Linux Debian package from [Zoiper's official download page](https://www.zoiper.com/en/voip-softphone/download/current) and place the `.deb` in `build/config/includes.chroot/root/tomos-debs/` before building.
 - **Apps:** Nautilus, GNOME Text Editor, GNOME Web (GTK3 + GTK4 themed), Waybar, wofi, mako, pavucontrol
 - **Installer:** Calamares 3.3.14 — "Install Tom OS" in the app launcher
 - **GTK3 + GTK4:** custom "TomOS" neon theme; libadwaita apps get dark + magenta accent via dconf
