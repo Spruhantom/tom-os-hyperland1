@@ -11,7 +11,7 @@ is_arch_host() {
     [[ -r /etc/os-release ]] || return 1
     # shellcheck disable=SC1091
     . /etc/os-release
-    [[ "${ID:-}" == "arch" || " ${ID_LIKE:-} " == *" arch "* ]]
+    [[ "${ID:-}" == "arch" || "${ID:-}" == "omarchy" || " ${ID_LIKE:-} " == *" arch "* ]]
 }
 
 run_container_build() {
