@@ -2,6 +2,12 @@
 # ████ Tom OS — install local .debs (kernel, Tom OS WordDocEdit, Zoiper) ████
 set -e
 
+# live-build runs without an interactive terminal. Resolve package conffile
+# conflicts non-interactively, keeping the image configuration already staged
+# in the chroot instead of waiting forever for stdin.
+export DEBIAN_FRONTEND=noninteractive
+DPKG_CONFFILE_OPTIONS=(--force-confdef --force-confold)
+
 echo "=== Tom OS: installing local packages ==="
 
 # live-build pulls in the distro kernel (linux-generic); we ship our own
@@ -11,7 +17,11 @@ dpkg -l 2>/dev/null | awk '/^ii  linux-(image|modules|headers|generic)/ {print $
 	| grep -v '7\.2\.6-070206' | xargs -r apt-get -y purge
 
 # Install all bundled debs; dependency repair happens right after
-dpkg -i /root/tomos-debs/*.deb || apt-get -y -f install
+dpkg "${DPKG_CONFFILE_OPTIONS[@]}" -i /root/tomos-debs/*.deb || \
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        -f install
 
 # Explicit verification — fail the build if anything is missing
 echo "=== Tom OS: verifying local packages ==="
