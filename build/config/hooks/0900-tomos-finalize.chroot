@@ -11,6 +11,16 @@ echo "[tomos] removing GNOME session bits pulled in by Recommends (Tom OS uses T
 apt-get -y purge gdm3 gnome-shell ubuntu-session gnome-session-bin \
     gnome-remote-desktop yaru-theme-gnome-shell mutter-common 2>/dev/null || true
 
+echo "[tomos] ensuring Calamares installer is installed"
+if ! command -v calamares >/dev/null 2>&1; then
+    echo "[tomos] Calamares is missing; refreshing Ubuntu package indexes"
+    apt-get update
+    apt-get -y \
+        -o Dpkg::Options::=--force-confdef \
+        -o Dpkg::Options::=--force-confold \
+        install calamares calamares-data
+fi
+
 echo "[tomos] validating Calamares installer"
 command -v calamares >/dev/null 2>&1 || { echo "ERROR: Calamares binary is missing" >&2; exit 1; }
 command -v pkexec >/dev/null 2>&1 || { echo "ERROR: pkexec is missing; add the pkexec package" >&2; exit 1; }
