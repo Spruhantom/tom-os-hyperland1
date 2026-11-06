@@ -11,16 +11,41 @@ echo "=== Tom OS: installing local packages ==="
 
 # live-build pulls in the distro kernel (linux-generic); we ship our own
 # mainline 7.2.6 kernel instead, so purge everything that isn't it.
+# Fetch the pinned Ubuntu mainline 7.2.6 generic kernel. These large
+# packages are intentionally not stored in Git; download and validate them
+# in the build chroot so a fresh clone is self-contained.
+KERNEL_VERSION="7.2.6-070206"
+KERNEL_BUILD="7.2.6-070206.202609141300"
+KERNEL_URL="https://kernel.ubuntu.com/mainline/v7.2.6/amd64"
+KERNEL_DIR="/root/tomos-debs"
+mkdir -p "$KERNEL_DIR"
+
+for deb in \
+    "linux-headers-${KERNEL_VERSION}_${KERNEL_BUILD}_all.deb" \
+    "linux-headers-${KERNEL_VERSION}-generic_${KERNEL_BUILD}_amd64.deb" \
+    "linux-image-unsigned-${KERNEL_VERSION}-generic_${KERNEL_BUILD}_amd64.deb" \
+    "linux-modules-${KERNEL_VERSION}-generic_${KERNEL_BUILD}_amd64.deb"; do
+    if [ ! -s "$KERNEL_DIR/$deb" ]; then
+        echo "[tomos] downloading $deb"
+        curl --fail --location --retry 5 --retry-delay 3 \
+            --connect-timeout 30 --max-time 900 \
+            "$KERNEL_URL/$deb" -o "$KERNEL_DIR/$deb"
+    fi
+    dpkg-deb --info "$KERNEL_DIR/$deb" >/dev/null
+done
+
+# Install all bundled packages together through APT so dependencies are
+# resolved in one transaction. Preserve the staged Tom OS conffiles.
+echo "=== Tom OS: installing local packages ==="
+apt-get -y \
+    -o Dpkg::Options::=--force-confdef \
+    -o Dpkg::Options::=--force-confold \
+    install "$KERNEL_DIR"/*.deb
+
+# Remove the distro kernel only after the replacement is installed.
 echo "=== Tom OS: removing distro kernel ==="
 dpkg -l 2>/dev/null | awk '/^ii  linux-(image|modules|headers|generic)/ {print $2}' \
-	| grep -v '7\.2\.6-070206' | xargs -r apt-get -y purge
-
-# Install all bundled debs; dependency repair happens right after
-dpkg --force-confdef --force-confold -i /root/tomos-debs/*.deb || \
-    apt-get -y \
-        -o Dpkg::Options::=--force-confdef \
-        -o Dpkg::Options::=--force-confold \
-        -f install
+    | grep -v '7\\.2\\.6-070206' | xargs -r apt-get -y purge
 
 # Explicit verification — fail the build if anything is missing
 echo "=== Tom OS: verifying local packages ==="
