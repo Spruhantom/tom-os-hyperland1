@@ -35,9 +35,9 @@ run_container_build() {
     fi
 
     echo "[Tom OS] Building with Ubuntu 26.04 in $runtime (host remains unchanged)."
-    "${runtime_prefix[@]}" "$runtime" build -t "$IMAGE" -f "$ROOT/Dockerfile.build" "$ROOT"
+    "${runtime_prefix[@]}" "$runtime" build --network=host -t "$IMAGE" -f "$ROOT/Dockerfile.build" "$ROOT"
 
-    local -a runtime_args=(run --rm --privileged)
+    local -a runtime_args=(run --rm --privileged --network=host)
     if [[ "$runtime" == "podman" ]]; then
         runtime_args+=(--security-opt label=disable)
     fi
