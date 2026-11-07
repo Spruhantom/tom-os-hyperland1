@@ -166,6 +166,6 @@ LB_SWAP_FILE_PATH=""
 # (Default: 512)
 LB_SWAP_FILE_SIZE="512"
 
-# $LB_SYSLINUX_THEME: set syslinux theme package
-# (Default: ubuntu-oneiric)
-LB_SYSLINUX_THEME="ubuntu-oneiric"
+# Syslinux is not used by the custom GRUB hybrid ISO. Disable the obsolete
+# Ubuntu Oneiric theme, which depends on packages removed from Resolute.
+LB_SYSLINUX_THEME=""
