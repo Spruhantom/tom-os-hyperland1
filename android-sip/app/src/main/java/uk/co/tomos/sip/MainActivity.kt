@@ -98,7 +98,7 @@ class TomSipEngine(context: android.content.Context) {
             }
             params.identityAddress = identity
             params.serverAddress = server
-            params.isRegisterEnabled = true
+            params.registerEnabled = true
             val account = core.createAccount(params)
             core.addAccount(account)
             core.defaultAccount = account
