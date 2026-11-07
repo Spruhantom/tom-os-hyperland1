@@ -24,9 +24,10 @@ LB_BOOTAPPEND_INSTALL=""
 # (Default: empty)
 LB_BOOTAPPEND_FAILSAFE="memtest noapic noapm nodma nomce nolapic nomodeset nosmp nosplash vga=normal"
 
-# $LB_BOOTLOADER: set bootloader
-# (Default: grub)
-LB_BOOTLOADER="grub"
+# Do not ask live-build 3.x to install its legacy GRUB package. Ubuntu
+# Resolute live-build still hard-codes the removed grub-legacy package.
+# make-iso.sh assembles the final BIOS+UEFI hybrid ISO with grub-mkrescue.
+LB_BOOTLOADER=""
 
 # $LB_CHECKSUMS: set checksums
 # (Default: sha256)
