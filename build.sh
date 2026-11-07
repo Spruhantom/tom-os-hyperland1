@@ -98,6 +98,16 @@ fi
 
 cd "$ROOT/build"
 
+# If the chroot was manually removed but live-build stage markers remain,
+# those stale markers make live-build skip bootstrap/chroot setup and later
+# attempt to write into a directory that no longer exists. Reset generated
+# stages while preserving the downloaded package/bootstrap cache.
+if [[ ! -d chroot/etc/apt && -d .build ]] && compgen -G ".build/chroot_*" >/dev/null; then
+    echo "[Tom OS] Incomplete chroot with stale live-build stage markers detected."
+    echo "[Tom OS] Cleaning generated stages (download caches are preserved)..."
+    lb clean
+fi
+
 # xz squashfs compression (live-build skips xz in ubuntu mode).
 export MKSQUASHFS_OPTIONS="-comp xz -b 1M -Xdict-size 100%"
 
