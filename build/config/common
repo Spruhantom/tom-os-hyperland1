@@ -134,7 +134,9 @@ _QUIET="false"
 #_VERBOSE="false"
 
 # Internal stuff (FIXME)
-APT_OPTIONS="--yes"
+# Keep package configuration non-interactive, including dpkg conffile prompts.
+# Prefer package defaults where possible and retain modified Tom OS configuration.
+APT_OPTIONS="--yes -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
 APTITUDE_OPTIONS="--assume-yes"
 GZIP_OPTIONS="-6  --rsyncable"
 ISOHYBRID_OPTIONS=""
